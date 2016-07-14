@@ -46,19 +46,6 @@ namespace EmployeePortal.Controllers
                 ViewBag.CopyTimecardEligible = false;
                 ViewBag.HasTimecards = false;
             }
-            // wait until the CURRENT WEEK IS FINISHED before you can copy timecard -- UNCOMMENT THIS ...
-            //if (lastTimecard != null)
-            //{
-            //    if (DateTime.Now > DateTime.Parse(lastTimecard.WeekEnding) && employee.TimecardCount > 0)
-            //    {
-            //        ViewBag.CopyTimecardEligible = true;
-            //    }
-            //    else
-            //    {
-            //        ViewBag.CopyTimecardEligible = false;
-            //    }
-            //}
-            //**************************************************************************************************************************************
             ViewBag.EmployeeName = employee.FirstName + " " + employee.LastName;
             List<Timecard> timecards = timecardService.GetTimecards(employee.Id).ToList();
             int pageNumber, pagesize;
@@ -128,7 +115,6 @@ namespace EmployeePortal.Controllers
                 };
                 var jobcode = timecardService.GetJobCode(newTimecard.JobCode);
                 newTimecard.CustomerCode = timecardService.GetCustomerCode(jobcode.CustomerCode);
-                // THIS LINE ALLOWS YOU TO SEE THE MODEL ERRORS - look at common/ModelErrorChecker.cs class
                 var errors = ModelState.Values.SelectMany(v => v.Errors);
                 if (ModelState.IsValid)
                 {
