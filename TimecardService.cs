@@ -1,11 +1,9 @@
-﻿using EmployeePortal.common;
+using EmployeePortal.common;
 using EmployeePortal.Models;
 using EmployeePortal.Repository;
-using EmployeePortal.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace EmployeePortal.Services
