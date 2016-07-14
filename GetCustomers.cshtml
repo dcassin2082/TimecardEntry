@@ -1,4 +1,4 @@
-﻿<link href="~/Content/styles.css" rel="stylesheet" />
+<link href="~/Content/styles.css" rel="stylesheet" />
 <div ng-app="customerApp" ng-controller="customerController" ng-init="getCustomers()">
     <div class="row">
         <div class="col-md-12">
@@ -6,16 +6,15 @@
             <h1>Customers</h1>
             <table class="table table-hover table-bordered table-striped">
                 <tr>
-                    <th style="background-color:#e7f3f0">Id</th>
-                    <th style="background-color:#e7f3f0">Name</th>
-                    <th style="background-color:#e7f3f0">Address</th>
-                    <th style="background-color:#e7f3f0">City</th>
-                    <th style="background-color:#e7f3f0">State</th>
-                    <th style="background-color:#e7f3f0">Zip</th>
-                    <th style="background-color:#e7f3f0">Phone</th>
-                    @*<th style="background-color:#e7f3f0">Region</th>*@
-                    <th style="background-color:#e7f3f0"><span class="glyphicon glyphicon-edit btn-success"></span> Update</th>
-                    <th style="background-color:#e7f3f0"><span class="glyphicon glyphicon-remove btn-danger"></span> Remove</th>
+                    <th class="table-header">Id</th>
+                    <th class="table-header">Name</th>
+                    <th class="table-header">Address</th>
+                    <th class="table-header">City</th>
+                    <th class="table-header">State</th>
+                    <th class="table-header">Zip</th>
+                    <th class="table-header">Phone</th>
+                    <th class="table-header"><span class="glyphicon glyphicon-edit btn-success"></span> Update</th>
+                    <th class="table-header"><span class="glyphicon glyphicon-remove btn-danger"></span> Remove</th>
                 </tr>
                 <tr ng-repeat="c in customers">
                     <td>
