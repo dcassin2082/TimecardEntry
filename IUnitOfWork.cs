@@ -10,7 +10,6 @@ namespace EmployeePortal.Repository
     {
         IRepository<Applicant> ApplicantRepository { get; }
         IRepository<Job> JobRepository { get; }
-        //IRepository<TimecardDetails> TimecardRepository { get; }
         IRepository<TimecardType> TimecardTypeRepository { get; }
         IRepository<JobCodes> JobCodeRepository { get; }
         IRepository<CustomerCode> CustomerCodeRepository { get; }
