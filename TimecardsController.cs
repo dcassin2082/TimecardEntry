@@ -35,7 +35,7 @@ namespace EmployeePortal.Controllers
             {
                 return RedirectToAction("Index", "Applicant");
             }
-            // copy last week's timecard ANYTIME ***************************************************************************************************
+            
             if (employee.TimecardCount > 0)
             {
                 ViewBag.CopyTimecardEligible = true;
@@ -93,7 +93,7 @@ namespace EmployeePortal.Controllers
             }
             Timecard lastTimecard = timecardService.GetLastTimecard(employee.Id);
             Timecard newTimecard;
-            // NEXT WEEK SHOULD BE BASED ON THE LAST TIMECARD WEEKENDING - i.e IF WEEK ENDED ON 9/2/2016 - PICK UP NEW WEEK STARTING 9/3/2016
+            
             if (lastTimecard != null)
             {
                 IList<string> nextWeek = timecardService.GetNextWeek();
@@ -207,7 +207,7 @@ namespace EmployeePortal.Controllers
             timecard.CustomerCode = timecardService.GetCustomerCode(jobcode.CustomerCode);
             timecard.ApprovalStatus = "Pending ...";
 
-            // THIS LINE ALLOWS YOU TO SEE THE MODEL ERRORS - look at common/ModelErrorChecker.cs class
+            // THIS LINE ALLOWS YOU TO SEE THE MODEL ERRORS
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid)
             {
@@ -599,8 +599,6 @@ namespace EmployeePortal.Controllers
                 timecardService.AddTimeCardEntry(entry);
             }
         }
-
-
 
         private static string GetDeviceType()
         {
