@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace EmployeePortal.Services
 {
-    public class TimecardService : Controller
+    public class TimecardService 
     {
         private IUnitOfWork unitOfWork = new UnitOfWork();
 
