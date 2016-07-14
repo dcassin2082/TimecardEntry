@@ -100,7 +100,7 @@ namespace EmployeePortal.ViewModels
         public int TimeTypeId { get; set; }
         public bool HasAdjustments { get; set; }
         public int ParentId { get; set; }
-		public List<TimecardEntry> TimeEntries { get; set; }
+	public List<TimecardEntry> TimeEntries { get; set; }
         public List<Adjustment> Adjustments { get; set; }
     }
 }
