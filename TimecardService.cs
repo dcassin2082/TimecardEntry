@@ -176,26 +176,6 @@ namespace EmployeePortal.Services
             return currentWeek;
         }
 
-        public IList<string> GetNextWeek(int count)
-        {
-            List<string> currentWeek = new List<string>();
-            string sunday = DateTime.Now.AddDays(count * 7).StartOfWeek(DayOfWeek.Sunday).ToString("MM/dd/yyyy");
-            string monday = DateTime.Now.AddDays(count * 7).StartOfWeek(DayOfWeek.Sunday).AddDays(1).ToString("MM/dd/yyyy");
-            string tuesday = DateTime.Now.AddDays(count * 7).StartOfWeek(DayOfWeek.Sunday).AddDays(2).ToString("MM/dd/yyyy");
-            string wednesday = DateTime.Now.AddDays(count * 7).StartOfWeek(DayOfWeek.Sunday).AddDays(3).ToString("MM/dd/yyyy");
-            string thursday = DateTime.Now.AddDays(count * 7).StartOfWeek(DayOfWeek.Sunday).AddDays(4).ToString("MM/dd/yyyy");
-            string friday = DateTime.Now.AddDays(count * 7).StartOfWeek(DayOfWeek.Sunday).AddDays(5).ToString("MM/dd/yyyy");
-            string saturday = DateTime.Now.AddDays(count * 7).StartOfWeek(DayOfWeek.Sunday).AddDays(6).ToString("MM/dd/yyyy");
-            currentWeek.Add(sunday);
-            currentWeek.Add(monday);
-            currentWeek.Add(tuesday);
-            currentWeek.Add(wednesday);
-            currentWeek.Add(thursday);
-            currentWeek.Add(friday);
-            currentWeek.Add(saturday);
-            return currentWeek;
-        }
-
         public IList<string> GetNextWeek()
         {
             List<string> currentWeek = new List<string>();
@@ -212,33 +192,6 @@ namespace EmployeePortal.Services
             currentWeek.Add(wednesday);
             currentWeek.Add(thursday);
             currentWeek.Add(friday);
-            currentWeek.Add(saturday);
-            return currentWeek;
-        }
-
-        public IList<string> GetTwoWeeks()
-        {
-            List<string> currentWeek = new List<string>();
-            string sunday = DateTime.Now.StartOfWeek(DayOfWeek.Sunday).ToString("MM/dd/yyyy");
-            string monday = DateTime.Now.StartOfWeek(DayOfWeek.Sunday).AddDays(1).ToString("MM/dd/yyyy");
-            string tuesday = DateTime.Now.StartOfWeek(DayOfWeek.Sunday).AddDays(2).ToString("MM/dd/yyyy");
-            string wednesday = DateTime.Now.StartOfWeek(DayOfWeek.Sunday).AddDays(3).ToString("MM/dd/yyyy");
-            string thursday = DateTime.Now.StartOfWeek(DayOfWeek.Sunday).AddDays(4).ToString("MM/dd/yyyy");
-            string friday = DateTime.Now.StartOfWeek(DayOfWeek.Sunday).AddDays(5).ToString("MM/dd/yyyy");
-            string saturday = DateTime.Now.StartOfWeek(DayOfWeek.Sunday).AddDays(6).ToString("MM/dd/yyyy");
-            currentWeek.Add(sunday);
-            currentWeek.Add(sunday);
-            currentWeek.Add(monday);
-            currentWeek.Add(monday);
-            currentWeek.Add(tuesday);
-            currentWeek.Add(tuesday);
-            currentWeek.Add(wednesday);
-            currentWeek.Add(wednesday);
-            currentWeek.Add(thursday);
-            currentWeek.Add(thursday);
-            currentWeek.Add(friday);
-            currentWeek.Add(friday);
-            currentWeek.Add(saturday);
             currentWeek.Add(saturday);
             return currentWeek;
         }
