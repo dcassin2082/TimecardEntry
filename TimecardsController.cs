@@ -185,7 +185,7 @@ namespace EmployeePortal.Controllers
             return RedirectToAction("Create");
         }
 
-        // YOU CAN use this method if you want to just copy last week's timecard without making them select a user code first
+        // YOU CAN use this method if you want to just copy last week's timecard without making them select a job code first
         //public ActionResult CopyLastTimecard()
         //{
         //    ViewBag.WeekEndingSort = null;
