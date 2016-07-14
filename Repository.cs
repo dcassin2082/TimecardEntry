@@ -1,14 +1,9 @@
-﻿using EmployeePortal.common;
 using EmployeePortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure.DependencyResolution;
-using System.Data.Entity.Infrastructure.Pluralization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Web;
-using System.Web.Mvc;
 
 namespace EmployeePortal.Repository
 {
