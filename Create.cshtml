@@ -22,21 +22,22 @@
             </div>
         </div>
     </div>
-        @Html.HiddenFor(m => m.JobCode)
-        @Html.HiddenFor(m => m.EmployeeID)
-        @Html.HiddenFor(m => m.EmployeeName)
-        @Html.HiddenFor(m => m.RegisterId)
-        @Html.HiddenFor(m => m.CreatedDate)
-        @Html.HiddenFor(m => m.CreatedByComputerName)
-        @Html.HiddenFor(m => m.CreatedByDeviceType)
-        @Html.HiddenFor(m => m.CreatedByIPAddress)
-        @Html.HiddenFor(m => m.LastModifiedByComputerName)
-        @Html.HiddenFor(m => m.LastModifiedByDeviceType)
-        @Html.HiddenFor(m => m.LastModifiedByIPAddress)
-        @Html.HiddenFor(m => m.LastModifiedDate)
+        
 }
 <div>
     @Html.ActionLink("Back to List", "Index")
+    @Html.HiddenFor(m => m.JobCode)
+    @Html.HiddenFor(m => m.EmployeeID)
+    @Html.HiddenFor(m => m.EmployeeName)
+    @Html.HiddenFor(m => m.RegisterId)
+    @Html.HiddenFor(m => m.CreatedDate)
+    @Html.HiddenFor(m => m.CreatedByComputerName)
+    @Html.HiddenFor(m => m.CreatedByDeviceType)
+    @Html.HiddenFor(m => m.CreatedByIPAddress)
+    @Html.HiddenFor(m => m.LastModifiedByComputerName)
+    @Html.HiddenFor(m => m.LastModifiedByDeviceType)
+    @Html.HiddenFor(m => m.LastModifiedByIPAddress)
+    @Html.HiddenFor(m => m.LastModifiedDate)
 </div>
 <script>
     $(function () {
