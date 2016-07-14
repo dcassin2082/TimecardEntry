@@ -61,10 +61,12 @@ namespace EmployeePortal.Services
         {
             return unitOfWork.TimecardEntryRepository.GetEntities(t => t.TimecardId == timecardId);
         }
+        
         public TimecardEntry GetTimecardEntry(DateTime workDate, int timecardId)
         {
             return unitOfWork.TimecardEntryRepository.GetEntity(e => e.WorkDate == workDate && e.TimecardId == timecardId);
         }
+        
         public TimecardEntry GetParentEntry(int timecardId, DateTime workDate)
         {
             return unitOfWork.TimecardEntryRepository.GetEntities(p => p.TimecardId == timecardId && p.WorkDate == workDate && p.ParentId == 0).FirstOrDefault();
@@ -112,7 +114,7 @@ namespace EmployeePortal.Services
             unitOfWork.ApplicantRepository.Update(employee);
             unitOfWork.Commit();
         }
-
+        
         public new void Dispose()
         {
             unitOfWork.Dispose();
@@ -139,8 +141,6 @@ namespace EmployeePortal.Services
         {
             return unitOfWork.ApplicantRepository.GetEntity(i => i.Id == timecard.EmployeeID);
         }
-
-        
         #endregion
 
         #region Ajax helpers
