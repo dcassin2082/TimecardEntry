@@ -1,0 +1,282 @@
+﻿@model EmployeePortal.Models.Timecard
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Timecard</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @*<dt>
+            @Html.DisplayNameFor(model => model.RegisterId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegisterId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Approved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Approved)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ApprovalStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApprovalStatus)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JobCode)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.JobCodeId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JobCodeId)
+        </dd>*@
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.File)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.File)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comments)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeTypeId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeTypeId)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WeekEnding)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WeekEnding)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalHours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalHours)
+        </dd>
+
+        
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.LunchIn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LunchIn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LunchOut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LunchOut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Break1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Break1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Break2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Break2)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalRegular)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalRegular)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalOvertime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalOvertime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalVacation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalVacation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalSickTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalSickTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalMiles)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalMiles)
+        </dd>
+        @*<dt>
+            @Html.DisplayNameFor(model => model.EmployeeID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedByIPAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedByIPAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastModifiedIPAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastModifiedIPAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedByComputerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedByComputerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastModifiedByComputerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastModifiedByComputerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedByDeviceType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedByDeviceType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastModifiedByDeviceType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastModifiedByDeviceType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastModifiedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastModifiedDate)
+        </dd>*@
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,530 @@
+﻿@model EmployeePortal.ViewModels.TimecardViewModel
+<link href="~/Content/styles.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Edit";
+}
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.TimecardId)
+    @Html.HiddenFor(m => m.HasAdjustments)
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div style="text-align:center">
+                        <h3>@Model.EmployeeName - Timecard Entry</h3>
+                    </div>
+                    <h5>Approval Status: @Model.ApprovalStatus</h5>
+                    <div class="@(Model.ApprovalStatus == "Approved" || Model.ApprovalStatus == "Submitted" || Model.ApprovalStatus == "Finalized" ? "disabledbutton" : "")">
+                        <table class="table table-bordered table-hover table-striped" id="tblTimeEntry">
+                            <thead>
+                                <tr>
+                                    <th class="th-center">Day</th>
+                                    <th class="th-center">Date</th>
+                                    <th class="th-center">Start Time</th>
+                                    <th class="th-center">Break 1</th>
+                                    <th class="th-center">Lunch Out</th>
+                                    <th class="th-center">Lunch In</th>
+                                    <th class="th-center">Break 2</th>
+                                    <th class="th-center">End Time</th>
+                                    <th class="th-center">Total Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.TimeEntries.Count; i++)
+                                {
+                                    <tr class="tr-center">
+                                        @if (!Model.TimeEntries[i].IsChild)
+                                        {
+                                            <td class="td-center" style="width:80px; height:25px;">
+                                                @Html.HiddenFor(m => Model.TimeEntries[i].DayOfWeek)
+                                                @Html.DisplayFor(m => Model.TimeEntries[i].DayOfWeek)
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="td-center" style="width:80px; height:25px;">
+                                                @Html.HiddenFor(m => Model.TimeEntries[i].DayOfWeek)
+                                            </td>
+                                        }
+                                        <td class="td-center">
+                                            @Html.HiddenFor(m => Model.TimeEntries[i].WorkDate)
+                                            @Html.DisplayFor(m => Model.TimeEntries[i].WorkDate)
+                                        </td>
+                                        <td class="td-center">
+                                            @Html.TextBoxFor(m => Model.TimeEntries[i].StartTime, new { @class = "txtStartTimeValue textboxfor-time", @id = "txtStartTimeValue" + i })
+                                            @Html.ValidationMessageFor(m => Model.TimeEntries[i].StartTime, "", new { @class = "text-danger" })
+                                        </td>
+                                        <td class="td-center">
+                                            @Html.TextBoxFor(m => Model.TimeEntries[i].Break1, new { @type = "number", @min = 0, @class = "txtBreak1 textboxfor-break", @id = "txtBreak1" + i, onkeypress = "return isNumberKey(event)" })
+                                            @Html.ValidationMessageFor(m => Model.TimeEntries[i].Break1, "", new { @class = "text-danger" })
+                                        </td>
+                                        <td class="td-center">
+                                            @Html.TextBoxFor(m => Model.TimeEntries[i].LunchOut, new { @class = "txtLunchOutValue textboxfor-time", @id = "txtLunchOutValue" + i })
+                                            @Html.ValidationMessageFor(m => Model.TimeEntries[i].LunchOut, "", new { @class = "text-danger" })
+                                        </td>
+                                        <td class="td-center">
+                                            @Html.TextBoxFor(m => Model.TimeEntries[i].LunchIn, new { @style = "height:40px", @class = "txtLunchInValue textboxfor-time", @id = "txtLunchInValue" + i })
+                                            @Html.ValidationMessageFor(m => Model.TimeEntries[i].LunchIn, "", new { @class = "text-danger" })
+                                        </td>
+                                        <td class="td-center">
+                                            @Html.TextBoxFor(m => Model.TimeEntries[i].Break2, new { @type = "number", @min = 0, @class = "txtBreak2 textboxfor-break", @id = "txtBreak2" + i, onkeypress = "return isNumberKey(event)" })
+                                            @Html.ValidationMessageFor(m => Model.TimeEntries[i].Break2, "", new { @class = "text-danger" })
+                                        </td>
+                                        <td class="td-center">
+                                            @Html.TextBoxFor(m => Model.TimeEntries[i].EndTime, new { @style = "height:40px", @class = "txtEndTimeValue textboxfor-time", @id = "txtEndTimeValue" + i })
+                                            @Html.ValidationMessageFor(m => Model.TimeEntries[i].EndTime, "", new { @class = "text-danger" })
+                                        </td>
+                                        <td class="td-center">
+                                            @Html.HiddenFor(m => Model.TimeEntries[i].Regular)
+                                            @Html.DisplayFor(m => Model.TimeEntries[i].Regular, new { @style = "height:40px", @type = "number", @class = "textboxfor-time" })
+                                        </td>
+                                    </tr>
+                                }
+                                <tr class="tr-center" style="background-color:aliceblue;">
+                                    <td colspan="2" class="td-center">
+                                        <h5>Employee:  @Html.DisplayFor(m => m.EmployeeName)</h5>
+                                    </td>
+                                    <td colspan="2" class="td-center">
+                                        <h5>Customer:  @Html.DisplayFor(m => m.CustomerCode)</h5>
+                                    </td>
+                                    <td colspan="1" class="td-center">
+                                        <h5>Job Code:  @Html.DisplayFor(m => m.JobCode)</h5>
+                                    </td>
+
+                                    <td colspan="2" class="td-center">
+                                        <h5>Week Ending:  @Html.DisplayFor(m => m.WeekEnding)</h5>
+                                    </td>
+                                    <td class="td-center">
+                                        <h5>Total:</h5>
+                                    </td>
+                                    <td class="td-center">
+                                        @Html.HiddenFor(m => m.TotalRegular)
+                                        <h5>@Html.DisplayFor(m => m.TotalRegular)</h5>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    @if (Model.ApprovalStatus != "Submitted" && Model.ApprovalStatus != "Approved" && Model.ApprovalStatus != "Finalized")
+                    {
+                        <div class="form-group">
+                            <div class="btn btn-group pull-right">
+                                <div class="col-md-3">
+                                    <button type="button" id="btnAddEntry" name="submit" value="Add New Entry" class="btn btn-primary">
+                                        Add New Entry
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" id="btnAddAdjustment" name="submit" value="Add Adjustment" class="btn btn-primary">Add Adjustment <span class="glyphicon glyphicon-plus"></span></button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="submit" id="saveTimecard" name="submit" value="Save Timecard" class="btn btn-primary">
+                                        Save Timecard
+                                        <span class="glyphicon glyphicon-save"></span>
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="submit" name="submit" id="submitTimecard" value="Submit Timecard" class="btn btn-primary">
+                                        Submit Timecard
+                                        <span class="glyphicon glyphicon-warning-sign"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div id="divHiddenFields">
+                        @Html.HiddenFor(model => model.TimecardSubmitted)
+                        @Html.HiddenFor(model => model.EmployeeName)
+                        @Html.HiddenFor(model => model.ApprovalStatus)
+                        @Html.HiddenFor(model => model.JobCode)
+                        @Html.HiddenFor(model => model.CustomerCode)
+                        @Html.HiddenFor(model => model.TimecardId)
+                        @Html.HiddenFor(model => model.Type)
+                        @Html.HiddenFor(m => m.TotalMiles)
+                        @Html.HiddenFor(m => m.TotalHours)
+                        @Html.HiddenFor(m => m.TimecardTypeId)
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="row">
+    <div class="col-md-12">
+        <div id="modal-container" class="modal fade" role="dialog">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div id="addEntry-container" class="modal fade" role="dialog">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div id="dialog" title="Alert message" class="modal fade" role="dialog" style="display: none">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3>Invalid Time Entry</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <h5>
+                                <label id="lblMessage">
+                                </label>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="cancel-btn" class="btn btn-primary" data-dismiss="modal">
+                            Ok
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (Model.HasAdjustments)
+{
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="text-align:center">
+                <h4>Adjustments</h4>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="title" class="col-md-2 control-label">Employee Name:</label>
+                    @Html.DisplayFor(m => m.EmployeeName)
+                    @Html.HiddenFor(m => m.EmployeeName)
+                </div>
+                <div class="form-group">
+                    <label for="title" class="col-md-2 control-label">Employee Id:</label>
+                    @Html.DisplayFor(m => m.EmployeeId)
+                    @Html.HiddenFor(m => m.EmployeeId)
+                </div>
+                <div class="form-group">
+                    <label for="title" class="col-md-2 control-label">Timecard Id:</label>
+                    @Html.DisplayFor(m => m.TimecardId)
+                    @Html.HiddenFor(m => m.TimecardId)
+                </div>
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th class="th-center">Work Date</th>
+                            <th class="th-center">Adjustment Type</th>
+                            <th class="th-center">Adjustment Hours / Miles</th>
+                            <th class="th-center">Adjustment Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Adjustments != null)
+                        {
+                            for (int i = 0; i < Model.Adjustments.Count; i++)
+                            {
+                                <tr>
+                                    <td class="td-center">
+                                        @Html.HiddenFor(m => Model.Adjustments[i].WorkDate)
+                                        @Html.DisplayFor(m => Model.Adjustments[i].WorkDate)
+                                    </td>
+                                    <td class="td-center">
+                                        @Html.HiddenFor(m => Model.Adjustments[i].AdjustmentType)
+                                        @Html.DisplayFor(m => Model.Adjustments[i].AdjustmentType)
+                                    </td>
+                                    <td class="td-center">
+                                        @Html.HiddenFor(m => Model.Adjustments[i].AdjustmentQuantity)
+                                        @Html.DisplayFor(m => Model.Adjustments[i].AdjustmentQuantity)
+                                    </td>
+                                    <td class="td-center">
+                                        @Html.HiddenFor(m => Model.Adjustments[i].AdjustmentDate)
+                                        @Html.DisplayFor(m => Model.Adjustments[i].AdjustmentDate)
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<br />
+<script>
+    // detect mobile users with these functions ...................
+    $(function(){
+        var isMobile = {
+            Android: function() {
+                return navigator.userAgent.match(/Android/i);
+            },
+            BlackBerry: function() {
+                return navigator.userAgent.match(/BlackBerry/i);
+            },
+            iOS: function() {
+                return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+            },
+            Opera: function() {
+                return navigator.userAgent.match(/Opera Mini/i);
+            },
+            Windows: function() {
+                return navigator.userAgent.match(/IEMobile/i);
+            },
+            any: function() {
+                return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+            }
+        };
+        //To check to see if the user is on any of the supported mobile devices:
+        //if( isMobile.any() ) alert('Mobile');
+
+        //To check to see if the user is on a specific mobile device:
+        if( isMobile.iOS() ) alert('iOS');
+        if(isMobile.Android() ) alert('Android')
+    });
+    function isNumberKey(evt){
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if(charCode >= 48 && charCode <= 57)
+            return true;
+        return false;
+    }
+    $(function(){
+        var values = $('input[name="txtStartTime[]"]').map(function(){
+            return this.value
+        });
+    })
+    $(function(){
+        for(i = 0; i < @Model.TimeEntries.Count; i++){
+            $("#txtStartTimeValue" + i).timepicker({'scrollDefault': 'now' });
+            $("#txtLunchOutValue" + i).timepicker({'scrollDefault': 'now' });
+            $("#txtLunchInValue" + i).timepicker({'scrollDefault': 'now' });
+            $("#txtEndTimeValue" + i).timepicker({'scrollDefault': 'now' });
+        }
+        function disableSubmitButtons(){
+            $("#saveTimecard").prop('disabled', true);
+            $("#submitTimecard").prop('disabled', true);
+        }
+        function enableSubmitButtons(){
+            $("#saveTimecard").prop('disabled', false);
+            $("#submitTimecard").prop('disabled', false);
+        }
+        $('#btnAddAdjustment').click(function () {
+            var timecardId = @Model.TimecardId;
+            var employeeId = @Model.EmployeeId;
+            $.ajax({
+                type: 'GET',
+                cache: false,
+                datatype: 'json',
+                contentType: 'application/json',
+                url: '@Url.Action("CreateAdjustment", "Timecards")',
+                data: {
+                    timecardId : timecardId,
+                    employeeId : employeeId
+                },
+                traditional: true,
+                success: function (result) {
+                    $('#modal-container').modal('show').html(result);
+                }
+            });
+        });
+        $('#btnAddEntry').click(function () {
+            var timecardId = @Model.TimecardId;
+            $.ajax({
+                type: 'GET',
+                cache: false,
+                datatype: 'json',
+                contentType: 'application/json',
+                url: '@Url.Action("AddTimecardEntry", "Timecards")',
+                data: {
+                    timecardId : timecardId,
+                },
+                traditional: true,
+                success: function (result) {
+                    $('#addEntry-container').modal('show').html(result);
+                }
+            });
+        });
+        $('#accordion').on('shown.bs.collapse', function (e) {
+            var id = $(e.target).prev().find("[id]")[0].id;
+            $('#divEmployee').show();
+            navigateToElement(id);
+        })
+        function navigateToElement(id) {
+            $('html, body').animate({
+                scrollTop: $("#" + id).offset().top
+            }, 1000);
+        }
+        // here we use the class names assigned to the various text box fields to figure
+        //      out which row in the table we are currently working with, starting with the click event,
+        //      then we get the id of the text box, parse out its row index and now we can
+        //      compare each field with the other fields in that row on the change event
+        $(".txtStartTimeValue").click(function(){
+            var id = $(this).attr('id');
+            var rowNumber = id.match(/\d+$/)[0];
+            var txtStartTime = "#" + id + "";
+            $(txtStartTime).change(function(){
+                if($(txtStartTime).valid()){
+                    enableSubmitButtons();
+                    var starttime, endtime, lunchin, lunchout;
+                    var txtEndTime = $("#txtEndTimeValue" + rowNumber + "");
+                    var txtLunchIn = $("#txtLunchInValue" + rowNumber + "");
+                    var txtLunchOut = $("#txtLunchOutValue" + rowNumber + "");
+                    if($(txtStartTime).val() != "")
+                        starttime = $(txtStartTime).timepicker('getTime').getTime();
+                    if($(txtEndTime).val() != "")
+                        endtime = $(txtEndTime).timepicker('getTime').getTime();
+                    if($(txtLunchOut).val() != "")
+                        lunchout = $(txtLunchOut).timepicker('getTime').getTime();
+                    if($(txtLunchIn).val() != "")
+                        lunchin = $(txtLunchIn).timepicker('getTime').getTime();
+                    if($(txtEndTime).val() != "12:00am"){
+                        if(starttime > endtime){
+                            disableSubmitButtons();
+                            alert('start time cannot be greater than end time!');
+                            $(txtStartTime).focus();
+                        }
+                    }
+                    if(starttime > lunchin){
+                        disableSubmitButtons();
+                        alert('start time cannot be greater than lunch in time!');
+                        $(txtStartTime).focus();
+                    }
+                    if(starttime > lunchout){
+                        disableSubmitButtons();
+                        alert('start time cannot be greater than lunch out time!');
+                        $(txtStartTime).focus();
+                    }
+                }
+            });
+        });
+        $(".txtLunchOutValue").click(function(){
+            var id = $(this).attr('id');
+            var rowNumber = id.match(/\d+$/)[0];
+            var txtLunchOut = "#" + id + "";
+            $(txtLunchOut).change(function(){
+                if($(txtLunchOut).valid()){
+                    enableSubmitButtons();
+                    var starttime, endtime, lunchin, lunchout;
+                    var txtEndTime = $("#txtEndTimeValue" + rowNumber + "");
+                    var txtLunchIn = $("#txtLunchInValue" + rowNumber + "");
+                    var txtStartTime = $("#txtStartTimeValue" + rowNumber + "");
+                    if($(txtStartTime).val() != "")
+                        starttime = $(txtStartTime).timepicker('getTime').getTime();
+                    if($(txtEndTime).val() != "")
+                        endtime = $(txtEndTime).timepicker('getTime').getTime();
+                    if($(txtLunchOut).val() != "")
+                        lunchout = $(txtLunchOut).timepicker('getTime').getTime();
+                    if($(txtLunchIn).val() != "")
+                        lunchin = $(txtLunchIn).timepicker('getTime').getTime();
+                    if($(txtEndTime).val() != "12:00am"){
+                        if(lunchout > endtime){
+                            disableSubmitButtons();
+                            alert('Lunch out time cannot be greater than end time!');
+                            $(txtLunchOut).focus();
+                        }
+                    }
+                    if(lunchout > lunchin){
+                        disableSubmitButtons();
+                        alert('Lunch out time cannot be greater than lunch in time!');
+                        $(txtLunchOut).focus();
+                    }
+                    if(lunchout < starttime){
+                        disableSubmitButtons();
+                        alert('Lunch out time must cannot be less than start time!');
+                        $(txtLunchOut).focus();
+                    }
+                }
+            });
+        });
+        $(".txtLunchInValue").click(function(){
+            var id = $(this).attr('id');
+            var rowNumber = id.match(/\d+$/)[0];
+            var txtLunchIn = "#" + id + "";
+            $(txtLunchIn).change(function(){
+                if($(txtLunchIn).valid()){
+                    enableSubmitButtons();
+                    var starttime, endtime, lunchin, lunchout;
+                    var txtEndTime = $("#txtEndTimeValue" + rowNumber + "");
+                    var txtLunchOut = $("#txtLunchOutValue" + rowNumber + "");
+                    var txtStartTime = $("#txtStartTimeValue" + rowNumber + "");
+                    if($(txtStartTime).val() != "")
+                        starttime = $(txtStartTime).timepicker('getTime').getTime();
+                    if($(txtEndTime).val() != "")
+                        endtime = $(txtEndTime).timepicker('getTime').getTime();
+                    if($(txtLunchOut).val() != "")
+                        lunchout = $(txtLunchOut).timepicker('getTime').getTime();
+                    if($(txtLunchIn).val() != "")
+                        lunchin = $(txtLunchIn).timepicker('getTime').getTime();
+                    if($(txtEndTime).val() != "12:00am"){
+                        if(lunchin > endtime){
+                            disableSubmitButtons();
+                            alert('Lunch in time cannot be greater than end time!');
+                            $(txtLunchIn).focus();
+                        }
+                    }
+                    if(lunchin < lunchout){
+                        disableSubmitButtons();
+                        alert('Lunch in time cannot be less than lunch out time!');
+                        $(txtLunchIn).focus();
+                    }
+                    if(lunchin < starttime){
+                        disableSubmitButtons();
+                        alert('Lunch in time cannot be less than start time!');
+                        $(txtLunchIn).focus();
+                    }
+                }
+            });
+        });
+        $(".txtEndTimeValue").click(function(){
+            var id = $(this).attr('id');
+            var rowNumber = id.match(/\d+$/)[0];
+            var txtEndTime = "#" + id + "";
+            $(txtEndTime).change(function(){
+                if($(txtEndTime).valid()){
+                    enableSubmitButtons();
+                    var starttime, endtime, lunchin, lunchout;
+                    var txtLunchIn = $("#txtLunchInValue" + rowNumber + "");
+                    var txtLunchOut = $("#txtLunchOutValue" + rowNumber + "");
+                    var txtStartTime = $("#txtStartTimeValue" + rowNumber + "");
+                    if($(txtStartTime).val() != "")
+                        starttime = $(txtStartTime).timepicker('getTime').getTime();
+                    if($(txtEndTime).val() != "")
+                        endtime = $(txtEndTime).timepicker('getTime').getTime();
+                    if($(txtLunchOut).val() != "")
+                        lunchout = $(txtLunchOut).timepicker('getTime').getTime();
+                    if($(txtLunchIn).val() != "")
+                        lunchin = $(txtLunchIn).timepicker('getTime').getTime();
+                    if($(txtEndTime).val() != "12:00am"){
+                        if(endtime < lunchin){
+                            disableSubmitButtons();
+                            alert('End time cannot be less than lunch in time!');
+                            $(txtEndTime).focus();
+                        }
+                        if(endtime < lunchout){
+                            disableSubmitButtons();
+                            alert('End time cannot be less than lunch out time!');
+                            $(txtEndTime).focus();
+                        }
+                        if(endtime < starttime){
+                            disableSubmitButtons();
+                            alert('End time cannot be less than start time!');
+                            $(txtEndTime).focus();
+                        }
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+@*we would need to include the following script to use the jquery (..).dialog(...) thing*@
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+

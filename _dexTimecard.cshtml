@@ -1,0 +1,271 @@
+﻿@*@model IEnumerable<EmployeePortal.Models.TimeEntry>*@
+@{
+    @*@Html.DevExpress().GetStyleSheets(
+            new StyleSheet { ExtensionSuite = ExtensionSuite.HtmlEditor, Theme = "Aqua" },
+            new StyleSheet { ExtensionSuite = ExtensionSuite.Editors, Theme = "Aqua" },
+            new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout, Theme = "Aqua" },
+            new StyleSheet { ExtensionSuite = ExtensionSuite.GridView, Theme = "Aqua" }
+        )*@
+
+var grid = Html.DevExpress().GridView(settings =>
+{
+    //settings.Theme = "Aqua";
+    settings.Name = "grdtime";
+    settings.CallbackRouteValues = new { Controller = "TimeEntries", Action = "GridTimePartial" };
+
+    settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "TimeEntries", Action = "GridTimePartialAddNew" };
+    settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "TimeEntries", Action = "GridTimePartialUpdate" };
+    settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "TimeEntries", Action = "GridTimePartialDelete" };
+    //settings.CommandColumn.CellStyle.CssClass = "btn btn-default";
+
+    settings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+    settings.SettingsText.PopupEditFormCaption = "Add / Edit Timecard";
+    settings.SettingsBehavior.ConfirmDelete = true;
+
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowNewButton = true;
+    settings.CommandColumn.ShowDeleteButton = true;
+    settings.CommandColumn.ShowEditButton = true;
+
+    ////add new button to header row
+    settings.Name = "gvEditing";
+    settings.CommandColumn.SetHeaderTemplateContent(c =>
+    {
+        Html.DevExpress().HyperLink(hyperLinkSettings =>
+        {
+            hyperLinkSettings.Name = "link_" + settings.Name;
+            hyperLinkSettings.Properties.Text = "Create New Timecard";
+            hyperLinkSettings.NavigateUrl = "javascript:void(0);";
+            hyperLinkSettings.Properties.ClientSideEvents.Click = string.Format(@"
+        function(s, e)
+        {{
+            {0}.AddNewRow();
+        }}
+        ", settings.Name);
+        }).Render();
+    });
+    //settings.CommandColumn.CellStyle.CssClass = "btn btn-lg btn-primary";
+    //settings.CommandColumn.HeaderStyle.CssClass = "btn btn-lg btn-primary";
+    //add new button to footer row
+    //settings.Name = "gvFooter";
+    //settings.CommandColumn.SetFooterTemplateContent(c =>
+    //{
+    //    Html.DevExpress().HyperLink(hyperLinkSettings =>
+    //    {
+    //        hyperLinkSettings.Name = "link_" + settings.Name;
+    //        hyperLinkSettings.Properties.Text = "Create New Timecard";
+    //        hyperLinkSettings.NavigateUrl = "javascript:void(0);";
+    //        hyperLinkSettings.Properties.ClientSideEvents.Click = string.Format(@"
+    //function(s, e)
+    //{{
+    //    {0}.AddNewRow();
+    //}}
+    //", settings.Name);
+    //    }).Render();
+    //});
+
+
+    //settings.CommandColumn.HeaderStyle.CssClass = "btn btn-lg btn-success";
+    settings.KeyFieldName = "Id";
+
+    settings.SettingsPager.Visible = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.SettingsBehavior.AllowSelectByRowClick = true;
+    settings.Columns.Add(column =>
+    {
+        column.Name = "cboTypes";
+        column.FieldName = "Type";
+        column.Caption = "Type";
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+        comboBoxProperties.DropDownStyle = DropDownStyle.DropDownList;
+        comboBoxProperties.DataSource = @ViewData["timeTypes"];
+    });
+    settings.Columns.Add("CustomerCode");
+    settings.Columns.Add("JobCode");
+    settings.Columns.Add("WorkDate", MVCxGridViewColumnType.DateEdit);
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "StartTime";
+        column.ColumnType = MVCxGridViewColumnType.TimeEdit;
+        var timeEditProperties = column.PropertiesEdit as TimeEditProperties;
+        timeEditProperties.DisplayFormatString = "hh: mm tt";
+        timeEditProperties.EditFormat = EditFormat.Custom;
+        timeEditProperties.EditFormatString = "hh: mm tt";
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "EndTime";
+        column.ColumnType = MVCxGridViewColumnType.TimeEdit;
+        var timeEditProperties = column.PropertiesEdit as TimeEditProperties;
+        timeEditProperties.DisplayFormatString = "hh: mm tt";
+        timeEditProperties.EditFormat = EditFormat.Custom;
+        timeEditProperties.EditFormatString = "hh: mm tt";
+    });
+    settings.Columns.Add("Break");
+    settings.Columns.Add("TotalHours");
+    settings.Columns.Add("File");
+    settings.Columns.Add("Comments");
+
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "Id";
+    //    column.UnboundType = DevExpress.Data.UnboundColumnType.String;
+    //    column.SetDataItemTemplateContent(c =>
+    //    {
+    //        Html.DevExpress().Button(settingsBtn =>
+    //        {
+    //            settingsBtn.Name = "btn" + c.KeyValue;
+    //            settingsBtn.Text = "Submit Timecard";
+    //            settingsBtn.ClientSideEvents.Click = "function(s, e) {DisplayGroupAlarm();}"; //string.Format("function(s, e) {{ alert('{0}'); }}", c.KeyValue);
+    //                                                                                          //settingsBtn.RouteValues = new { Controller = "Home", Action = "ButtonClickAction", rowKeyValue = c.KeyValue };
+    //            settingsBtn.Styles.Style.CssClass = "btn btn-primary";
+    //            settingsBtn.ControlStyle.CssClass = "btn btn-primary";
+
+    //            settings.Init += (s, e) =>
+    //            {
+    //                ((MVCxButton)s).Native = true;
+    //            };
+    //            settingsBtn.UseSubmitBehavior = true;
+    //        }).Render();
+    //    });
+    //});
+
+
+    settings.CellEditorInitialize = (sender, e) =>
+    {
+        if (e.Column.FieldName == "TotalHours" || e.Column.FieldName == "TotalMiles")
+        {
+            e.Editor.Enabled = false;
+            e.Editor.Width = 50;
+        }
+    };
+    settings.InitNewRow = (sender, e) =>
+    {
+        e.NewValues["StartTime"] = DateTime.Now;
+        e.NewValues["EndTime"] = DateTime.Now;
+    };
+    /*you can use this if you want to open any row for editing by just clicking anywhere in the row*/
+    //settings.ClientSideEvents.RowClick = "function(s, e) { s.GetSelectedFieldValuesCallback(e.visibleIndex); }";
+});
+
+if (ViewData["EditError"] != null)
+{
+    grid.SetEditErrorText((string)ViewData["EditError"]);
+}
+}
+@grid.Bind(Model).GetHtml()
+
+<br />
+<script>
+    $(function () {
+        $(this).load(function () {
+            $("#btnSave").show();
+            $("#btnSubmit").show();
+        });
+    });
+</script>
+
+@*settings.Columns.Add(column =>
+    {
+        column.FieldName = "StartTime";
+        column.ColumnType = MVCxGridViewColumnType.TimeEdit;
+        column.Visible = true;
+        var timeEditProperties = column.PropertiesEdit as TimeEditProperties;
+        var myEditSettings = new TimeEditSettings();
+        myEditSettings.DateTime = DateTime.Today;
+        myEditSettings.Enabled = true;
+        myEditSettings.ClientVisible = true;
+
+        myEditSettings.ClientEnabled = true;
+    });*@
+
+@*@Html.DevExpress().TimeEdit(
+    settings =>
+    {
+        settings.Name = "timeEdit1";
+        settings.Properties.DisplayFormatString = "h:mm tt";
+        settings.Properties.EditFormat = EditFormat.Time;
+        settings.DateTime = DateTime.Parse("2009/11/01 15:31:34");
+    }).GetHtml()*@
+
+
+@*@Html.DevExpress().DateEdit(
+    date =>
+    {
+        date.Name = "dateEdit1";
+
+        date.Properties.DisplayFormatString = "D";
+        date.Date = new DateTime(1984, 06, 14);
+    }).GetHtml();*@
+
+
+@*@{
+        var grid = Html.DevExpress().GridView(settings =>
+        {
+            settings.Name = "grdtime";
+            settings.CallbackRouteValues = new { Controller = "TimeEntries", Action = "grdtimePartial" };
+
+            settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "TimeEntries", Action = "grdtimePartialAddNew" };
+            settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "TimeEntries", Action = "grdtimePartialUpdate" };
+            settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "TimeEntries", Action = "grdtimePartialDelete" };
+            settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+            settings.SettingsBehavior.ConfirmDelete = true;
+
+            settings.CommandColumn.Visible = true;
+            settings.CommandColumn.ShowNewButton = true;
+            settings.CommandColumn.ShowDeleteButton = true;
+            settings.CommandColumn.ShowEditButton = true;
+
+            settings.KeyFieldName = "Id";
+
+            settings.SettingsPager.Visible = true;
+            settings.Settings.ShowGroupPanel = true;
+            settings.Settings.ShowFilterRow = true;
+            settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+            settings.Columns.Add("Type");
+            settings.Columns.Add("CustomerCode");
+            settings.Columns.Add("JobCode");
+            settings.Columns.Add("WorkDate");
+            settings.Columns.Add("StartTime");
+            settings.Columns.Add("EndTime");
+            settings.Columns.Add("StartMiles");
+            settings.Columns.Add("EndMiles");
+            settings.Columns.Add("Break");
+            settings.Columns.Add("TotalHours");
+            settings.Columns.Add("TotalMiles");
+            settings.Columns.Add("File");
+            settings.Columns.Add("Comments");
+            settings.ClientSideEvents.RowClick = "function(s, e) { s.StartEditRow(e.visibleIndex); }";
+        });
+        if (ViewData["EditError"] != null)
+        {
+            grid.SetEditErrorText((string)ViewData["EditError"]);
+        }
+    }
+    @grid.Bind(Model).GetHtml()*@
+
+@*@section Scripts{
+    <script>
+        ///^\d{2}:\d{2}\s[a-z]{2}$/i.test('02:02 am')
+        $("#StartTime").keypress(function (e) {
+            var regex = ["[0-2]",
+            "[0-4]",
+            ":",
+            "[0-6]",
+            "[0-9]",
+            "(A|P)",
+            "M"],
+            string = $(this).val() + String.fromCharCode(e.which),
+            b = true;
+            for (var i = 0; i < string.length; i++) {
+                if (!new RegExp("^" + regex[i] + "$").test(string[i])) {
+                    b = false;
+                }
+            }
+            return b;
+        });
+    </script>}*@

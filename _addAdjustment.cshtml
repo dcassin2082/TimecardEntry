@@ -1,0 +1,118 @@
+﻿@model EmployeePortal.ViewModels.TimecardViewModel
+@Html.AntiForgeryToken()
+@Html.HiddenFor(m => m.Type)
+@using (Html.BeginForm("CreateAdjustment", "Timecards", FormMethod.Post, new { @id = "addAdjustmentForm" }))
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Adjustment</h4>
+            </div>
+            <div class="modal-body">
+                @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
+                <div class="form-group">
+                    <h4><label for="title" class="col-sm-6 control-label">Date:</label></h4>
+                    @Html.DropDownListFor(m => m.WorkDate, AppHelper.GetCurrentWeek(Model.WeekEnding), "-- Select --", new { @class = "form-control", @id = "ddlDate" })
+                    @Html.ValidationMessageFor(model => model.WorkDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <h4><label for="title" class="col-sm-6 control-label">Adjustment Type:</label></h4>
+                    @Html.DropDownListFor(m => m.TimecardTypeId, AppHelper.GetTimecardAdjustments(), "-- Select --", new { @class = "form-control", @id = "ddlAdjustments" })
+                    @Html.ValidationMessageFor(model => model.TimecardTypeId, "", new { @class = "text-danger" })
+                </div>
+
+
+            </div>
+            <div id="divEmployeeInfo" style="display:none">
+                <div class="form-group">
+                    <h4><label for="title" class="col-sm-6 control-label">Employee Name:</label></h4>
+                    @Html.DisplayFor(m => m.EmployeeName)
+                    @Html.HiddenFor(m => m.EmployeeName)
+                </div>
+                <div class="form-group">
+                    <label for="title" class="col-sm-6 control-label">Employee Id:</label>
+                    @Html.DisplayFor(m => m.EmployeeId)
+                    @Html.HiddenFor(m => m.EmployeeId)
+                </div>
+                <div class="form-group">
+                    <label for="title" class="col-sm-6 control-label">Timecard Id:</label>
+                    @Html.DisplayFor(m => m.TimecardId)
+                    @Html.HiddenFor(m => m.TimecardId)
+                </div>
+            </div>
+            <div id="divHours" style="display:none">
+                <div class="form-group">
+                    <h4><label for="title" class="col-sm-4 col-sm-offset-0 control-label">Enter Hours:</label></h4>
+                    @Html.TextBoxFor(m => m.AdjustmentHours, new { @type = "number", @min = 0, @class = "textboxfor-break", @style = "width:80px;", @id = "txtAdjustmentHours" })
+                    @Html.ValidationMessageFor(m => m.AdjustmentHours, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div id="divMiles" style="display:none">
+                <div class="form-group">
+                    <h4><label for="title" class="col-sm-4  control-label">Enter Start Miles:</label></h4>
+                    @Html.TextBoxFor(m => m.StartMiles, new { @type = "number", @min = 0, @class = "textboxfor-break", @style = "width:80px;", @id = "txtStartMiles" })
+                    @Html.ValidationMessageFor(m => m.StartMiles, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <h4><label for="title" class="col-sm-4 control-label">Enter End Miles:</label></h4>
+                    @Html.TextBoxFor(m => m.EndMiles, new { @type = "number", @min = 0, @class = "textboxfor-break", @style = "width:80px;", @id = "txtEndMiles" })
+                    @Html.ValidationMessageFor(m => m.EndMiles, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                &nbsp;
+            </div>
+            <div id="divSubmit" style="display:none">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-3">
+                        <button type="submit" class="btn btn-primary" id="add-btn">
+                            Add
+                        </button>
+                        <button type="button" id="cancel-btn" class="btn btn-primary" data-dismiss="modal">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr />
+        </div>
+    </div>
+}
+<script>
+    $(function() {
+        $.validator.unobtrusive.parse($('#addAdjustmentForm'));
+    });
+    var date;
+    var adjustmentType;
+    var timecardId = @Model.TimecardId;
+    var employeeId = @Model.EmployeeId;
+    $('#ddlDate').change(function(){
+        date = $(this).val();
+    });
+    $('#ddlAdjustments').change(function () {
+        adjustmentType = $(this).val();
+        adjustmentType = $('#ddlAdjustments option:selected').text();
+        if(adjustmentType != 'Mileage Entry'){
+            // display hours div
+            $("#divHours").show();
+            $("#divMiles").hide();
+            $("#divSubmit").show();
+        }
+        else{
+            // display miles div
+            $("#divHours").hide();
+            $("#divMiles").show();
+            $("#divSubmit").show();
+        }
+    });
+    $(function(){
+        $("#add-btn").on("click", function(event){
+            if(parseFloat($("#txtStartMiles").val()) > parseFloat($("#txtEndMiles").val()))
+            {
+                event.preventDefault();
+                alert("Start miles cannot exceed end miles");
+            }
+        });
+    });
+</script>

@@ -1,0 +1,180 @@
+﻿@model EmployeePortal.ViewModels.TimecardViewModel
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Add @Model.Type</h4>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" role="form" name="addadjustmentform">
+                <div class="form-group">
+                    <h4><label for="title" class="col-sm-6 control-label">Employee Name:</label></h4>
+                    @Html.DisplayFor(m => m.EmployeeName)
+                    @Html.HiddenFor(m => m.EmployeeName)
+                </div>
+                <div class="form-group">
+                    <label for="title" class="col-sm-6 control-label">Employee Id:</label>
+                    @Html.DisplayFor(m => m.EmployeeId)
+                    @Html.HiddenFor(m => m.EmployeeId)
+                </div>
+                <div class="form-group">
+                    <label for="title" class="col-sm-6 control-label">Timecard Id:</label>
+                    @Html.DisplayFor(m => m.TimecardId)
+                    @Html.HiddenFor(m => m.TimecardId)
+                </div>
+                <div class="form-group">
+                    <label for="title" class="col-sm-6 control-label">Adjustment Type:</label>
+                    @Html.DisplayFor(m => m.Type)
+                    @Html.HiddenFor(m => m.Type)
+                </div>
+                <div class="form-group">
+                    <label for="title" class="col-sm-6 control-label">Work Date:</label>
+                    @Html.DisplayFor(m => m.WorkDate)
+                    @Html.HiddenFor(m => m.WorkDate)
+                </div>
+                @if (Model.Type != "Mileage Entry")
+                {
+                    <div class="form-group">
+                        <label for="title" class="col-sm-6 control-label">Regular:</label>
+                        @Html.DisplayFor(m => m.TotalRegular)
+                        @Html.HiddenFor(m => m.TotalRegular)
+                    </div>
+                    <div class="form-group">
+                        <label for="title" class="col-sm-6 control-label">Overtime:</label>
+                        @Html.DisplayFor(m => m.TotalOvertime)
+                        @Html.HiddenFor(m => m.TotalOvertime)
+                    </div>
+                    <div class="form-group">
+                        <label for="title" class="col-sm-6 control-label">Doubletime:</label>
+                        @Html.DisplayFor(m => m.Doubletime)
+                        @Html.HiddenFor(m => m.Doubletime)
+                    </div>
+                    <div class="form-group">
+                        <label for="title" class="col-sm-6 control-label">Vacation:</label>
+                        @Html.DisplayFor(m => m.TotalVacation)
+                        @Html.HiddenFor(m => m.TotalVacation)
+                    </div>
+                    <div class="form-group">
+                        <label for="title" class="col-sm-6 control-label">Sick:</label>
+                        @Html.DisplayFor(m => m.SickTime)
+                        @Html.HiddenFor(m => m.SickTime)
+                    </div>
+                    <hr />
+                    <div class="form-group">
+                        <h4><label for="title" class="col-sm-6 control-label">Week Ending:</label></h4>
+                        @Html.DisplayFor(m => m.WeekEnding)
+                        @Html.HiddenFor(m => m.WeekEnding)
+                    </div>
+                    <div class="form-group">
+                        <label for="title" class="col-sm-6 control-label">Total Hours:</label>
+                        @Html.DisplayFor(m => m.TotalHours)
+                        @Html.HiddenFor(m => m.TotalHours)
+                    </div>
+                    <hr />
+                    <div class="form-group">
+                        <h4><label for="title" class="col-sm-4 col-sm-offset-2 control-label">Enter Hours:</label></h4>
+                        @Html.TextBoxFor(m => m.AdjustmentHours, new { @type = "number", @min = 0, @class = "textboxfor-break", @style = "width:80px;" })
+                        @Html.ValidationMessageFor(m => m.AdjustmentHours, "", new { @class = "text-danger" })
+                    </div>
+                }
+
+                @*<div class="form-group">
+                        <label for="title" class="col-sm-6 control-label">Work Date:</label>
+                        @Html.DisplayFor(m => m.DayOfWeek)
+                        @Html.HiddenFor(m => m.DayOfWeek)
+                    </div>*@
+                
+
+
+                @*<hr />
+                @if (Model.Type != "Mileage Entry")
+                {
+                    <div class="form-group">
+                        <h4><label for="title" class="col-sm-4 col-sm-offset-2 control-label">Enter Hours:</label></h4>
+                        @Html.TextBoxFor(m => m.AdjustmentHours, new { @type = "number", @min = 0, @class = "textboxfor-break", @style = "width:80px;" })
+                        @Html.ValidationMessageFor(m => m.AdjustmentHours, "", new { @class = "text-danger" })
+                    </div>
+                }*@
+                else
+                {
+                    @*<div class="form-group">
+                        <label for="title" class="col-sm-6 control-label">Start Miles:</label>
+                        @Html.DisplayFor(m => m.StartMiles)
+                        @Html.HiddenFor(m => m.StartMiles)
+                    </div>
+                    <div class="form-group">
+                        <label for="title" class="col-sm-6 control-label">End Miles:</label>
+                        @Html.DisplayFor(m => m.EndMiles)
+                        @Html.HiddenFor(m => m.EndMiles)
+                    </div>*@
+                    @*<div class="form-group">
+                        <label for="title" class="col-sm-6 control-label">Miles:</label>
+                        @Html.DisplayFor(m => m.DailyMiles)
+                        @Html.HiddenFor(m => m.DailyMiles)
+                    </div>*@
+                    @*<div class="form-group">
+                        <label for="title" class="col-sm-6 control-label">Rate:</label>
+                        @Html.DisplayFor(m => m.Rate)
+                        @Html.HiddenFor(m => m.Rate)
+                    </div>
+                    <div class="form-group">
+                        <label for="title" class="col-sm-6 control-label">Amount:</label>
+                        @Html.DisplayFor(m => m.Amount)
+                        @Html.HiddenFor(m => m.Amount)
+                    </div>*@
+                    <hr />
+                    <div class="form-group">
+                        <h4><label for="title" class="col-sm-6 control-label">Week Ending:</label></h4>
+                        @Html.DisplayFor(m => m.WeekEnding)
+                        @Html.HiddenFor(m => m.WeekEnding)
+                    </div>
+                    <div class="form-group">
+                        <label for="title" class="col-sm-6 control-label">Total Miles:</label>
+                        @Html.DisplayFor(m => m.TotalMiles)
+                        @Html.HiddenFor(m => m.TotalMiles)
+                    </div>
+                    <div class="form-group">
+                        <label for="title" class="col-sm-6 control-label">Amount:</label>
+                        @Html.DisplayFor(m => m.TotalAmount)
+                        @Html.HiddenFor(m => m.TotalAmount)
+                    </div>
+                    <hr />
+                    <div class="form-group">
+                        <h4><label for="title" class="col-sm-4 col-sm-offset-2 control-label">Enter Start Miles:</label></h4>
+                        @Html.TextBoxFor(m => m.StartMiles, new { @type = "number", @min = 0, @class = "textboxfor-break", @style = "width:80px;" })
+                        @Html.ValidationMessageFor(m => m.StartMiles, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <h4><label for="title" class="col-sm-4 col-sm-offset-2 control-label">Enter End Miles:</label></h4>
+                        @Html.TextBoxFor(m => m.EndMiles, new { @type = "number", @min = 0, @class = "textboxfor-break", @style = "width:80px;" })
+                        @Html.ValidationMessageFor(m => m.EndMiles, "", new { @class = "text-danger" })
+                    </div>
+                    <hr />
+                    
+                }
+            </form>
+            <div class="row">
+                &nbsp;
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-5">
+                    <button type="button" class="btn btn-primary" id="cancel-btn" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="submit" id="approve-btn" class="btn btn-primary">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@*if you want to refresh the parent page on cancel but probably not*@
+@*<script>
+            $("#cancel-btn").click(function () {
+                location.reload();
+            });
+    </script>*@

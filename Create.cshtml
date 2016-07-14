@@ -1,0 +1,65 @@
+﻿@model EmployeePortal.Models.Timecard
+@{
+    ViewBag.Title = "Create";
+}
+<h2>Create New Timecard</h2>
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.JobCode)
+    @Html.HiddenFor(m => m.EmployeeID)
+    @Html.HiddenFor(m => m.EmployeeName)
+    @Html.HiddenFor(m => m.RegisterId)
+    @Html.HiddenFor(m => m.CreatedDate)
+    @Html.HiddenFor(m => m.CreatedByComputerName)
+    @Html.HiddenFor(m => m.CreatedByDeviceType)
+    @Html.HiddenFor(m => m.CreatedByIPAddress)
+    @Html.HiddenFor(m => m.LastModifiedByComputerName)
+    @Html.HiddenFor(m => m.LastModifiedByDeviceType)
+    @Html.HiddenFor(m => m.LastModifiedByIPAddress)
+    @Html.HiddenFor(m => m.LastModifiedDate)
+
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.JobCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 required">
+                @Html.DropDownListFor(m => m.JobCode, AppHelper.GetJobCodes(), "-- Select --", new { @class = "form-control", @id = "ddlJobCodes" })
+                @Html.ValidationMessageFor(model => model.JobCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script>
+    $(function () {
+        $('#ddlJobCodes').change(function () {
+            var jobcode = $(this).val();
+            $.ajax({
+                type: 'GET',
+                cache: false,
+                datatype: 'json',
+                contentType: 'application/json',
+                url: '@Url.Action("SetJobCode", "Timecards")',
+                data: {
+                    jobcode: jobcode
+                },
+                traditional: true,
+                success: function (result) {
+                    return result;
+                }
+            });
+        });
+    });
+</script>
+
+
+
